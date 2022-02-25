@@ -98,11 +98,25 @@ public class LockpickMinigame : MonoBehaviour
             pinHealth -= Time.deltaTime * pinDamageRate;
             if (pinHealth <= 0)
             {
-                Gameover();
+                pinAvailable--;
+                Debug.Log("You have" + pinAvailable +"pin left" );
+                ResetPin();
             }
         }
     }
 
+    private void ResetPin()
+    {
+        if (pinAvailable>0)
+        {
+            pinHealth = 1;
+            pinLocation = 0.5f;
+        }
+        else
+        {
+            Gameover();
+        }
+    }
     private void Gameover()
     {
         /// Only pause for now; maybe add restart?
