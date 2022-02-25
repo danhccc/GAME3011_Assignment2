@@ -82,9 +82,12 @@ public class LockpickMinigame : MonoBehaviour
         }
         Shaking();
 
-        TurnTheLock();
-        ResetLockRotation();
-
+        if (Input.GetMouseButton(0))
+        {
+            TurnTheLock();
+        }
+        else ResetLockRotation();
+            
         UpdateAnimation();
 
     }
@@ -129,27 +132,12 @@ public class LockpickMinigame : MonoBehaviour
     {
         //// Keyboard control for pin, use this as last resort
         PinPosition += Input.GetAxisRaw("Horizontal") * Time.deltaTime * pinTurnSpeed;
-
-        /// Mouse control logic for pin, need fix **************************************
-
-        Vector3 dir = Input.mousePosition - cam.WorldToScreenPoint(transform.position);
-
-        eulerAngle = Vector3.Angle(dir, Vector3.down);
-
-        Vector3 cross = Vector3.Cross(Vector3.down, dir);
-        if (cross.z < 0) { eulerAngle = -eulerAngle; }
-
-        eulerAngle = Mathf.Clamp(eulerAngle, -maxAngle, maxAngle);
-
-        Quaternion rotateTo = Quaternion.AngleAxis(eulerAngle, Vector3.forward);
-        pin.transform.rotation = rotateTo;
-
-        ///******************************************************************************
+        
     }
 
     private void TurnTheLock()
     {
-        LockCenterPosition += Mathf.Abs(Input.GetAxisRaw("Vertical") * Time.deltaTime * lockrotateSpeed);
+        LockCenterPosition += Mathf.Abs(Time.deltaTime * lockrotateSpeed);
 
         if (LockCenterPosition >= 0.9f) // The closer to 1.0f, the more accurate to unlock
         {
