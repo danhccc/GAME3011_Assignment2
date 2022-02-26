@@ -32,12 +32,20 @@ public class LockpickMinigame : MonoBehaviour
     /// Difficulty
     public int pinAvailable;
     public int currentPin;
+
+    [Range(1, 100)]
     public int playerLevel;
+    public float autoUnlockChance;
+
+    public float maxTimer;
+    public float timer;
 
     [Range(0,1)]
     public float sweetSpot;
     //UI
     public TextMeshProUGUI systemMsg;
+    public GameObject inGameUI;
+
     public float MaxRotationDistance
     {
         get { return 1f - Mathf.Abs(unlockPosition - PinPosition) + leanency; }
@@ -67,7 +75,7 @@ public class LockpickMinigame : MonoBehaviour
 
     private void Start()
     {
-        systemMsg.text = "please select difficulty";
+        systemMsg.text = "";
         anim = GetComponent<Animator>();
 
        NewGame();
@@ -82,7 +90,7 @@ public class LockpickMinigame : MonoBehaviour
             TurnThePin();
         }
         Shaking();
-
+        
         if (Input.GetMouseButton(0))
         {
             TurnTheLock();
@@ -90,6 +98,9 @@ public class LockpickMinigame : MonoBehaviour
         else ResetLockRotation();
             
         UpdateAnimation();
+
+        Timer(); 
+        updateSuccessChance();
 
     }
 
@@ -103,7 +114,7 @@ public class LockpickMinigame : MonoBehaviour
             if (pinHealth <= 0)
             {
                 currentPin--;
-                systemMsg.text = "You broke a lockpick,now you have" + pinAvailable +"pin left";
+                systemMsg.text = "You broke a lockpick,now you have " + currentPin +" pin left";
                 Debug.Log("You have" + currentPin +"pin left" );
                 ResetPin();
             }
@@ -128,6 +139,8 @@ public class LockpickMinigame : MonoBehaviour
         systemMsg.text = "Game Over!";
         gamePause = true;
         Time.timeScale = 0;
+
+        inGameUI.SetActive(false);
     }
 
     private void TurnThePin()
@@ -153,6 +166,8 @@ public class LockpickMinigame : MonoBehaviour
         systemMsg.text = "GG you picked the lock!";
         gamePause = true;
         Time.timeScale = 0;
+
+        inGameUI.SetActive(false);
     }
 
     private void ResetLockRotation()
@@ -167,11 +182,6 @@ public class LockpickMinigame : MonoBehaviour
         anim.SetBool("Shaking", isShaking);
     }
 
-    public void StartNewGame()
-    {
-        Time.timeScale = 1;
-        SceneManager.LoadScene("SampleScene");
-    }
 
     public void NewGame()
     {
@@ -180,15 +190,55 @@ public class LockpickMinigame : MonoBehaviour
         LockCenterPosition = 0f;
         unlockPosition = Random.Range(0.0f, 1.0f);
         currentPin = pinAvailable;
+        timer = maxTimer;
+        autoUnlockChance = (float)playerLevel * 2 / 3;
 
         lockResetSpeed = lockrotateSpeed / 2;
         gamePause = false;
     }
 
-    public void SetDifficulty(float sweetspot, int pinavailable)
+    public void SetDifficulty(float sweetspot, int pinavailable, float maxtimer)
     {
         sweetSpot = sweetspot;
         pinAvailable = pinavailable;
+        maxTimer = maxtimer;
         NewGame();
     }
+
+    public void Timer()
+    {
+        timer -= Time.deltaTime;
+        if (timer <= 0)
+        {
+            Gameover();
+        }
+    }
+
+    public void updateSuccessChance()
+    {
+        autoUnlockChance = (float)playerLevel * 2 / 3;
+    }
+
+    public void autoUnlock()
+    {
+        if (currentPin <= 0) return;
+        autoUnlockChance = (float)playerLevel * 2 / 3;
+        print(autoUnlockChance);
+
+        if (Random.Range(0, 100) <= autoUnlockChance)
+        {
+            Win();
+        }
+        else
+        {
+            currentPin--;
+            systemMsg.text = "Auto unlock failed!";
+            if (currentPin == 0)
+            {
+                Gameover();
+            }
+        }
+    }
+
+    
 }
