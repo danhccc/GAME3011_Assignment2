@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
@@ -33,6 +34,8 @@ public class LockpickMinigame : MonoBehaviour
     public int playerLevel;
 
 
+    //UI
+    public TextMeshProUGUI systemMsg;
     public float MaxRotationDistance
     {
         get { return 1f - Mathf.Abs(unlockPosition - PinPosition) + leanency; }
@@ -102,6 +105,7 @@ public class LockpickMinigame : MonoBehaviour
             if (pinHealth <= 0)
             {
                 pinAvailable--;
+                systemMsg.text = "You broke a lockpick,now you have" + pinAvailable +"pin left";
                 Debug.Log("You have" + pinAvailable +"pin left" );
                 ResetPin();
             }
@@ -124,6 +128,7 @@ public class LockpickMinigame : MonoBehaviour
     {
         /// Only pause for now; maybe add restart?
         Debug.Log("Your pin has broken!");
+        systemMsg.text = "Game Over!";
         gamePause = true;
         Time.timeScale = 0;
     }
@@ -148,6 +153,7 @@ public class LockpickMinigame : MonoBehaviour
     private void Win()
     {
         Debug.Log("Lock open successfully!");
+        systemMsg.text = "GG you picked the lock!";
         gamePause = true;
         Time.timeScale = 0;
     }
@@ -180,5 +186,6 @@ public class LockpickMinigame : MonoBehaviour
         
         lockResetSpeed = lockrotateSpeed / 2;
         gamePause = false;
+        systemMsg.text = "starting new game";
     }
 }

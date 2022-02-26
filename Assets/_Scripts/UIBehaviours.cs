@@ -12,7 +12,7 @@ public class UIBehaviours : MonoBehaviour
     [SerializeField]
     private LockpickMinigame game;
 
-    public TextMeshProUGUI systemMsg;
+   
     // Start is called before the first frame update
     void Start()
     {

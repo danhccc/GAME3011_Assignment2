@@ -885,6 +885,7 @@ MonoBehaviour:
   pinDamageRate: 1
   pinAvailable: 3
   playerLevel: 1
+  systemMsg: {fileID: 557431319}
 --- !u!1 &444084469
 GameObject:
   m_ObjectHideFlags: 0
@@ -1321,7 +1322,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 193, y: -112}
+  m_AnchoredPosition: {x: 146, y: -323}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &557431319
@@ -1407,7 +1408,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: -4.269371, z: -149.98547, w: -435.86423}
+  m_margin: {x: 0, y: -4.269371, z: -149.98547, w: -77.74517}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1821,7 +1822,6 @@ MonoBehaviour:
   lockpickMiniGame: {fileID: 1599322297}
   text: {fileID: 1969099090}
   game: {fileID: 334357837}
-  systemMsg: {fileID: 0}
 --- !u!4 &884976388
 Transform:
   m_ObjectHideFlags: 0
@@ -4292,6 +4292,7 @@ MonoBehaviour:
   pinDamageRate: 0
   pinAvailable: 0
   playerLevel: 0
+  systemMsg: {fileID: 0}
 --- !u!4 &7303981530686696165
 Transform:
   m_ObjectHideFlags: 0
