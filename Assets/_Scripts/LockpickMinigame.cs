@@ -31,9 +31,11 @@ public class LockpickMinigame : MonoBehaviour
 
     /// Difficulty
     public int pinAvailable;
+    public int currentPin;
     public int playerLevel;
 
-
+    [Range(0,1)]
+    public float sweetSpot;
     //UI
     public TextMeshProUGUI systemMsg;
     public float MaxRotationDistance
@@ -65,14 +67,10 @@ public class LockpickMinigame : MonoBehaviour
 
     private void Start()
     {
+        systemMsg.text = "please select difficulty";
         anim = GetComponent<Animator>();
 
-        PinPosition = 0;
-        LockCenterPosition = 0;
-        unlockPosition = Random.Range(0.0f, 1.0f);
-
-        lockResetSpeed = lockrotateSpeed / 2;
-        gamePause = false;
+       NewGame();
     }
 
     private void Update()
@@ -104,9 +102,9 @@ public class LockpickMinigame : MonoBehaviour
             pinHealth -= Time.deltaTime * pinDamageRate;
             if (pinHealth <= 0)
             {
-                pinAvailable--;
+                currentPin--;
                 systemMsg.text = "You broke a lockpick,now you have" + pinAvailable +"pin left";
-                Debug.Log("You have" + pinAvailable +"pin left" );
+                Debug.Log("You have" + currentPin +"pin left" );
                 ResetPin();
             }
         }
@@ -114,7 +112,7 @@ public class LockpickMinigame : MonoBehaviour
 
     private void ResetPin()
     {
-        if (pinAvailable>0)
+        if (currentPin>0)
         {
             pinHealth = 1;
             pinLocation = 0.5f;
@@ -126,7 +124,6 @@ public class LockpickMinigame : MonoBehaviour
     }
     private void Gameover()
     {
-        /// Only pause for now; maybe add restart?
         Debug.Log("Your pin has broken!");
         systemMsg.text = "Game Over!";
         gamePause = true;
@@ -144,7 +141,7 @@ public class LockpickMinigame : MonoBehaviour
     {
         LockCenterPosition += Mathf.Abs(Time.deltaTime * lockrotateSpeed);
 
-        if (LockCenterPosition >= 0.9f) // The closer to 1.0f, the more accurate to unlock
+        if (LockCenterPosition >= sweetSpot) // The closer to 1.0f, the more accurate to unlock
         {
             Win();
         }
@@ -179,13 +176,19 @@ public class LockpickMinigame : MonoBehaviour
     public void NewGame()
     {
         Time.timeScale = 1;
-        PinPosition = 0;
-        LockCenterPosition = 0.5f;
+        PinPosition = 0.5f;
+        LockCenterPosition = 0f;
         unlockPosition = Random.Range(0.0f, 1.0f);
-        pinAvailable = 3;
-        
+        currentPin = pinAvailable;
+
         lockResetSpeed = lockrotateSpeed / 2;
         gamePause = false;
-        systemMsg.text = "starting new game";
+    }
+
+    public void SetDifficulty(float sweetspot, int pinavailable)
+    {
+        sweetSpot = sweetspot;
+        pinAvailable = pinavailable;
+        NewGame();
     }
 }
