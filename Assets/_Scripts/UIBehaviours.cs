@@ -67,7 +67,7 @@ public class UIBehaviours : MonoBehaviour
         if (val == 2)
         {
             game.systemMsg.text = "Hard Mode";
-            game.SetDifficulty(0.95f,1,15f);
+            game.SetDifficulty(0.95f,2,15f);
         }
     }
 }

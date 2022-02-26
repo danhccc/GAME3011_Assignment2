@@ -857,7 +857,7 @@ MonoBehaviour:
   currentPin: 0
   playerLevel: 10
   autoUnlockChance: 0
-  maxTimer: 30
+  maxTimer: 60
   timer: 10
   sweetSpot: 0.904
   systemMsg: {fileID: 557431319}

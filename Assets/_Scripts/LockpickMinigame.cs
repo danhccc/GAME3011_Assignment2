@@ -192,7 +192,8 @@ public class LockpickMinigame : MonoBehaviour
         currentPin = pinAvailable;
         timer = maxTimer;
         autoUnlockChance = (float)playerLevel * 2 / 3;
-
+        inGameUI.SetActive(true);
+        
         lockResetSpeed = lockrotateSpeed / 2;
         gamePause = false;
     }
