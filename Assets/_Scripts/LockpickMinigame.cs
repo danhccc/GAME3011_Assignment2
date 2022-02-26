@@ -169,4 +169,16 @@ public class LockpickMinigame : MonoBehaviour
         Time.timeScale = 1;
         SceneManager.LoadScene("SampleScene");
     }
+
+    public void NewGame()
+    {
+        Time.timeScale = 1;
+        PinPosition = 0;
+        LockCenterPosition = 0.5f;
+        unlockPosition = Random.Range(0.0f, 1.0f);
+        pinAvailable = 3;
+        
+        lockResetSpeed = lockrotateSpeed / 2;
+        gamePause = false;
+    }
 }
